@@ -10,18 +10,17 @@ class Worker: public Common
 private:
 	int num_dep;
 public:
-	static int counter_worker;
-	static int GetCounter();
+	static int counter;
 	int GetNum_dep();
 	void SetNum_dep(int);
 
 	Worker();
-	Worker(Fio, int, double);
+	Worker(Fio, int,Date, double);
 	void load(ifstream&) override;
-	static void line();
-	void Add(Common**)override;
+	void line() override;
 	void print() override;
 	bool Find(string) override;
 	void Save(ofstream&) override;
+	int GetCounter()override;
 };	  
 

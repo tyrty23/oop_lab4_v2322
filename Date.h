@@ -23,5 +23,9 @@ public:
 	void SetMonth(string);
 	int GetYear();
 	void SetYear(int);
+	int GetDays();
+	int Days_in_month(string);
+	static int right_day();
+	static string right_month();
 };
 

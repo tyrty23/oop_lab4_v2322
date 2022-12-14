@@ -11,21 +11,18 @@ class Personnel :public Common
 	friend ostream& operator << (std::ostream&, Personnel&);
 private:
 	string proffesion;
-	Date date;
 public:
-	static int counter_personnel;
-	static int GetCounter();
+	static int counter;
+	 int GetCounter() override;
 
 	Personnel();
 	Personnel(Fio, string, Date,double);
-	static void PrintAll(Personnel*);
 	void load(ifstream&) override;
-	void Add(Common**)override;
 	void print() override;
 	void SetProffesion(string);
 	string GetProffesion();
 	bool Find(string) override;
-	static void line();
+	void line() override;
 	void Save(ofstream&) override;
 };
 

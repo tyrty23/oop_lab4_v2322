@@ -1,9 +1,9 @@
 #include "Personnel.h"
-int Personnel::counter_personnel = 0;
+int Personnel::counter = 0;
 
 int Personnel::GetCounter()
 {
-	return counter_personnel;
+	return counter;
 }
 
 Personnel::Personnel()
@@ -42,22 +42,15 @@ void Personnel::load(ifstream& fin)
 	this->date.SetMonth(m);
 	this->date.SetYear(y);
 	this->Setsalary(sal);
-	counter_personnel++;
-}
-
-void Personnel::Add(Common**)
-{
-	Personnel p;
-	cout << "Ввдите нового кадра в формате ФИО, профессию, дату приема через пробел или enter: \n";
-	cin >> p;
-	counter_personnel++;
+	counter++;
 }
 
 void Personnel::print()
 {
 	cout << setw(25) << this->fio
-		<< setw(35) << this->proffesion
-		<< setw(35) << this->date << setw(20) << this->salary << endl;
+		<< setw(15) << this->proffesion
+		<< setw(15) << this->date 
+		<< setw(20) << this->salary << endl;
 }
 
 void Personnel::SetProffesion(string p)
@@ -86,7 +79,7 @@ bool Personnel::Find(string p)
 //	cout << "Ведите фамилию сотрудника: ";
 //	cin >> test;
 //	test1.SetSurname(test);
-//	for (int i = 0; i < counter_personnel; i++)
+//	for (int i = 0; i < counter; i++)
 //		if (ar[i] == test1) {
 //			l = 1;
 //		}
@@ -94,7 +87,7 @@ bool Personnel::Find(string p)
 //	else {
 //		cout << "Работники с введенной фамилией: \n";
 //		line();
-//		for (int i = 0; i < counter_personnel; i++) {
+//		for (int i = 0; i < counter; i++) {
 //			if (ar[i] == test1) {
 //				cout << ar[i] << endl;;
 //
@@ -105,9 +98,11 @@ bool Personnel::Find(string p)
 
 void Personnel::line()
 {
-	cout <<"\n"<< setw(25) << "ФИО работника"
-		<< setw(40) << "Профессия"
-		<< setw(30) << "Дата приёма" << setw(20)<<"Зарплата"<< endl;
+	cout << "\n"
+		<< setw(25) << "ФИО работника"
+		<< setw(25) << "Профессия"
+		<< setw(25) << "Дата приёма"
+		<< setw(20) << "Оклад ($)" << endl;
 }
 
 void Personnel::Save(ofstream& fout)
@@ -134,33 +129,36 @@ bool operator==(Personnel p, Fio f)
 
 istream& operator>>(std::istream& in, Personnel& per)
 {
-	string n, s, p, m, prof;
-	int d,y;
-	double sal;
+	string n, s, p, prof;
 	cout << "Введите имя\n";
 	in >> n;
+	per.fio.SetName(Common::right_fio(n));
+
 	cout << "Введите фамилию\n";
 	in >> s;
+	per.fio.SetSurname(Common::right_fio(s));
+
 	cout << "Введите отчество\n";
 	in >> p;
+	per.fio.SetPatronomic(Common::right_fio(p));
+
 	cout << "Введите профессию\n";
 	in >> prof;
-	cout << "Введите день зачисления\n";
-	in >> d;
-	cout << "Введите месяц зачисления\n";
-	in >> m;
-	cout << "Введите год зачисления\n";
-	in >> y;
-	cout << "Введите оклад\n";
-	in >> sal;
-	per.fio.SetName(n);
-	per.fio.SetSurname(s);
-	per.fio.SetPatronomic(p);
 	per.SetProffesion(prof);
-	per.date.SetDay(d);
-	per.date.SetMonth(m);
-	per.date.SetYear(y);
-	per.Setsalary(sal);
+
+	cout << "Введите день зачисления\n";
+	per.date.SetDay(Date::right_day());
+
+	cout << "Введите месяц зачисления\n";
+	per.date.SetMonth(Date::right_month());
+
+	cout << "Введите год зачисления\n";
+	per.date.SetYear(Common::right_int());
+
+	cout << "Введите оклад\n";
+	per.Setsalary(Common::right_double());
+
+	//Personnel::counter++;
 	return in;
 }
 

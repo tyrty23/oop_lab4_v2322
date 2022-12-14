@@ -3,6 +3,7 @@
 Common::Common()
 {
 	Fio();
+	salary = 1200.8;
 } 
 
 double Common::Getsalary()
@@ -14,6 +15,7 @@ void Common::Setsalary(double s)
 {
 	this->salary = s;
 }
+
 Common::Common(Fio fio1,double s )
 {
 	fio = { fio1.GetName(),fio1.GetSurname(),fio1.GetPatronomic() };
@@ -42,15 +44,25 @@ istream& operator>>(istream& in, Common c)
 
 int Common::right_int()
 {
+	int n;
 	string buff;
 	/*cout << "Введите целое число: ";*/
 	cin >> buff;
-	while (true) {
-		if (atoi(buff.c_str()) != false) { return atoi(buff.c_str()); }
-		else {
-			cout << "Введите целое число: ";
-			cin >> buff;
+	try {
+		for (int i = 0; i < buff.length(); i++)
+		{
+			if (!isdigit(buff[i]))
+			{
+				throw "Непонятные символы";
+			}
 		}
+		return atoi(buff.c_str());
+	}
+	catch (const char* msg) {
+		cout << msg << endl;
+		cout << "Введите целое число: ";
+		n = right_int();
+		return n;
 	}
 }
 
@@ -60,6 +72,7 @@ void Common::Add(Common**)
 
 void Common::print()
 {
+
 }
 
 bool Common::Find(string)
@@ -86,4 +99,82 @@ void Common::Sort(Common*** ar,int counter_worker,int counter_personnel)
 			}
 }
 
+double Common::right_double()
+{
+	string buff;
+	//cout << "Введите число типа double: ";
+	cin >> buff;
+	while (true) {
+		if (atof(buff.c_str()) != false) { return atof(buff.c_str()); }
+		else {
+			cout << "Введите число типа double: ";
+			cin >> buff;
+		}
+	}
+
+
+	//int n;
+	//string buff;
+	///*cout << "Введите целое число: ";*/
+	//cin >> buff;
+	//try {
+	//	for (int i = 0; i < buff.length(); i++)
+	//	{
+	//		if ((!isdigit(buff[i])) || (buff[i] != '.'))
+	//		{
+	//			throw "Непонятные символы";
+	//		}
+	//	}
+	//	return atof(buff.c_str());
+	//}
+	//catch (const char* msg) {
+	//	cout << msg << endl;
+	//	cout << "Введите число типа double: ";
+	//	n = right_double();
+	//	return n;
+	//}
+}
+
+string Common::right_fio(string fio)
+{
+	try {
+		for (int i = 0; i < fio.length(); i++)
+		{
+			if (isdigit(fio[i]))
+			{
+				throw "Непонятные символы";
+			}
+			
+		}
+		return fio;
+	}
+	catch (const char* msg) {
+		cout << msg<<endl;
+		cout << "Введите нормальное слово: ";
+		string buff;
+		cin >> buff;
+		buff = right_fio(buff);
+		return buff;
+	}
+}
+
+int Common::GetCounter()
+{
+	return 0;
+}
+
+void Common::line()
+{
+}
+
+void Common::GetByDate(Common*** ar,Date dat)
+{
+	int base_dat = dat.GetDays();
+	for (int a = 0; a < 2; a++) {
+		ar[a][0]->line();
+		for (int i = 0; i < ar[a][0]->GetCounter(); i++)
+			if((-ar[a][i]->date.GetDays() + base_dat)>3650)
+				ar[a][i]->print();
+	}
+}
 
